@@ -29,7 +29,7 @@ def Index():
     data = cursor.fetchall()
   
     cursor.close()
-    return render_template('index.html', employee = data)
+    return render_template('AddEmp.html', employee = data)
 
 
 @app.route("/addemp", methods=['POST'])
