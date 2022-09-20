@@ -21,9 +21,15 @@ output = {}
 table = 'employee'
 
 
-@app.route("/", methods=['GET', 'POST'])
-def home():
-    return render_template('AddEmp.html')
+@app.route("/")
+def Index():
+    cursor = db_conn.cursor()
+ 
+    cursor.execute('SELECT * FROM employee')
+    data = cursor.fetchall()
+  
+    cur.close()
+    return render_template('index.html', employee = data)
 
 
 @app.route("/about", methods=['POST'])
@@ -80,6 +86,46 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
+@app.route('/edit/<id>', methods = ['POST', 'GET'])
+def get_employee(id):
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+  
+    cur.execute('SELECT * FROM employee WHERE id = %s', (id))
+    data = cur.fetchall()
+    cur.close()
+    print(data[0])
+    return render_template('edit.html', employee = data[0])
+
+@app.route('/update/<id>', methods=['POST'])
+def update_employee(id):
+    if request.method == 'POST':
+        fullname = request.form['fullname']
+        phone = request.form['phone']
+        email = request.form['email']
+        conn = mysql.connect()
+        cur = conn.cursor(pymysql.cursors.DictCursor)
+        cur.execute("""
+            UPDATE employee
+            SET name = %s,
+                email = %s,
+                phone = %s
+            WHERE id = %s
+        """, (fullname, email, phone, id))
+        flash('Employee Updated Successfully')
+        conn.commit()
+        return redirect(url_for('Index')) 
+
+
+@app.route('/delete/<string:id>', methods = ['POST','GET'])
+def delete_employee(id):
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+  
+    cur.execute('DELETE FROM employee WHERE id = {0}'.format(id))
+    conn.commit()
+    flash('Employee Removed Successfully')
+    return redirect(url_for('Index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
