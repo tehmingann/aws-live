@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from pymysql import connections
 import os
 import boto3
+import pymysql
 from config import *
 
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app = Flask(__name__)
 bucket = custombucket
 region = customregion
 
-db_conn = connections.Connection(
+db_conn = pymysql.connect(
     host=customhost,
     port=3306,
     user=customuser,
