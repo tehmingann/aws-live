@@ -28,7 +28,7 @@ def Index():
  
     cursor.execute('SELECT * FROM employee')
     data = cursor.fetchall()
-  
+    
     cursor.close()
     return render_template('AddEmp.html', employee = data)
 
