@@ -126,7 +126,7 @@ def update_employee(emp_id):
         conn.commit()
         return redirect(url_for('Index'))
  
-@app.route('/delete/<string:id>', methods = ['POST','GET'])
+@app.route('/delete/<string:emp_id>', methods = ['POST','GET'])
 def delete_employee(emp_id):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
