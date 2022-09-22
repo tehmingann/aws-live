@@ -93,19 +93,19 @@ def AddEmp():
     print("all modification done...")
     return render_template('AddEmpOutput.html', name=emp_name)
 
-@app.route('/edit/<id>', methods = ['POST', 'GET'])
-def get_employee(id):
+@app.route('/edit/<emp_id>', methods = ['POST', 'GET'])
+def get_employee(emp_id):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
   
-    cur.execute('SELECT * FROM employee WHERE id = %s', (id))
+    cur.execute('SELECT * FROM employee WHERE emp_id = %s', (emp_id))
     data = cur.fetchall()
     cur.close()
     print(data[0])
     return render_template('edit.html', employee = data[0])
  
-@app.route('/update/<id>', methods=['POST'])
-def update_employee(id):
+@app.route('/update/<emp_id>', methods=['POST'])
+def update_employee(emp_id):
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -119,18 +119,18 @@ def update_employee(id):
                 last_name = %s,
                 pri_skill = %s,
                 location = %s
-            WHERE id = %s
-        """, (first_name, last_name, pri_skill,location, id))
+            WHERE emp_id = %s
+        """, (first_name, last_name, pri_skill,location, emp_id))
         flash('Employee Updated Successfully')
         conn.commit()
         return redirect(url_for('AddEmp'))
  
 @app.route('/delete/<string:id>', methods = ['POST','GET'])
-def delete_employee(id):
+def delete_employee(emp_id):
     conn = mysql.connect()
     cur = conn.cursor(pymysql.cursors.DictCursor)
   
-    cur.execute('DELETE FROM employee WHERE id = {0}'.format(id))
+    cur.execute('DELETE FROM employee WHERE emp_id = {0}'.format(emp_id))
     conn.commit()
     flash('Employee Removed Successfully')
     return redirect(url_for('AddEmp'))
