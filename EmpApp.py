@@ -4,6 +4,7 @@ import os
 import boto3
 import pymysql
 from config import *
+from flaskext.mysql import MySQL
 
 app = Flask(__name__)
 
