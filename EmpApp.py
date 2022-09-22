@@ -7,6 +7,7 @@ from config import *
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
+app.secret_key = "nning00"
 
 bucket = custombucket
 region = customregion
