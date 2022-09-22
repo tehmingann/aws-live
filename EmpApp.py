@@ -121,8 +121,8 @@ def update_employee(emp_id):
                 pri_skill = %s,
                 location = %s
             WHERE emp_id = %s
-        """, (first_name, last_name, pri_skill,location, emp_id))
-        flash('Employee Updated Successfully')
+        """, (first_name, last_name, pri_skill, location, emp_id))
+        
         conn.commit()
         return redirect(url_for('Index'))
  
