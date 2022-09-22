@@ -123,7 +123,7 @@ def update_employee(emp_id):
         """, (first_name, last_name, pri_skill,location, emp_id))
         flash('Employee Updated Successfully')
         conn.commit()
-        return redirect(url_for('AddEmp'))
+        return redirect(url_for('Index'))
  
 @app.route('/delete/<string:id>', methods = ['POST','GET'])
 def delete_employee(emp_id):
@@ -133,7 +133,7 @@ def delete_employee(emp_id):
     cur.execute('DELETE FROM employee WHERE emp_id = {0}'.format(emp_id))
     conn.commit()
     flash('Employee Removed Successfully')
-    return redirect(url_for('AddEmp'))
+    return redirect(url_for('Index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
