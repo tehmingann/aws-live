@@ -18,18 +18,28 @@ db_conn = connections.Connection(
     db=customdb
 
 )
+mysql = MySQL()
+   
+# MySQL configurations
+app.config['MYSQL_DATABASE_USER'] = 'aws_user'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'Bait3273'
+app.config['MYSQL_DATABASE_DB'] = 'employee'
+app.config['MYSQL_DATABASE_HOST'] = 'employee.crhpyun5diaf.us-east-1.rds.amazonaws.com'
+mysql.init_app(app)
+
 output = {}
 table = 'employee'
 
 
 @app.route("/")
 def Index():
-    cursor = db_conn.cursor()
+    conn = mysql.connect()
+    cur = conn.cursor(pymysql.cursors.DictCursor)
  
-    cursor.execute('SELECT * FROM employee')
-    data = cursor.fetchall()
-    
-    cursor.close()
+    cur.execute('SELECT * FROM employee')
+    data = cur.fetchall()
+  
+    cur.close()
     return render_template('AddEmp.html', employee = data)
 
 
