@@ -92,7 +92,8 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('AddEmpOutput.html', name=emp_name)
+    flash('Employee Added successfully')
+    return redirect(url_for('Index'))
 
 @app.route('/edit/<emp_id>', methods = ['POST', 'GET'])
 def get_employee(emp_id):
@@ -122,7 +123,7 @@ def update_employee(emp_id):
                 location = %s
             WHERE emp_id = %s
         """, (first_name, last_name, pri_skill, location, emp_id))
-        
+        flash('Employee Updated Successfully')
         conn.commit()
         return redirect(url_for('Index'))
  
@@ -137,4 +138,4 @@ def delete_employee(emp_id):
     return redirect(url_for('Index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
