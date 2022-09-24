@@ -5,6 +5,7 @@ import boto3
 import pymysql
 from config import *
 from flaskext.mysql import MySQL
+import mimetypes
 
 app = Flask(__name__)
 app.secret_key = "nning00"
@@ -71,7 +72,8 @@ def AddEmp():
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, ContentType='image/jpeg', Body=emp_image_file)
+            file_mime_type, _ = mimetypes.guess_type(filename)
+            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, ContentType= file_mime_type, Body=emp_image_file)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
