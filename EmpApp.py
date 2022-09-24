@@ -71,7 +71,7 @@ def AddEmp():
 
         try:
             print("Data inserted in MySQL RDS... uploading image to S3...")
-            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, ContentType='image/jpeg', ContentType='image/png', Body=emp_image_file)
+            s3.Bucket(custombucket).put_object(Key=emp_image_file_name_in_s3, ContentType='image/jpeg', Body=emp_image_file)
             bucket_location = boto3.client('s3').get_bucket_location(Bucket=custombucket)
             s3_location = (bucket_location['LocationConstraint'])
 
